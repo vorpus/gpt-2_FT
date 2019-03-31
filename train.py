@@ -25,7 +25,6 @@ parser.add_argument('--dataset', metavar='PATH', type=str, required=True, help='
 parser.add_argument('--model_name', metavar='MODEL', type=str, default='117M', help='Pretrained model name')
 parser.add_argument('--combine', metavar='CHARS', type=int, default=50000, help='Concatenate input files with <|endoftext|> separator into chunks of this minimum size')
 
-parser.add_argument('--temperature', metavar='TEMP', type=float, default=0.9, help='Temperature 0.7')
 parser.add_argument('--batch_size', metavar='SIZE', type=int, default=1, help='Batch size')
 parser.add_argument('--learning_rate', metavar='LR', type=float, default=0.0001, help='Learning rate for Adam')
 parser.add_argument('--accumulate_gradients', metavar='N', type=int, default=5, help='Accumulate gradients across N minibatches.')
@@ -70,7 +69,7 @@ def main():
             length=args.sample_length,
             context=context,
             batch_size=args.batch_size,
-            temperature=args.temperature,
+            temperature=0.9,
             top_k=40)
 
         train_vars = [v for v in tf.trainable_variables() if 'model' in v.name]
