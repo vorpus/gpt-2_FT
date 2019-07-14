@@ -36,6 +36,7 @@ parser.add_argument('--only_train_transformer_layers', default=False, action='st
 
 parser.add_argument('--restore_from', type=str, default='latest', help='Either "latest", "fresh", or a path to a checkpoint file')
 parser.add_argument('--run_name', type=str, default='run1', help='Run id. Name of subdirectory in checkpoint/ and samples/')
+parser.add_argument('--max_iterations', metavar='N', type=int, default=1000, help='How many total iterations')
 parser.add_argument('--sample_length', metavar='TOKENS', type=int, default=1023, help='Sample this many tokens')
 parser.add_argument('--sample_num', metavar='N', type=int, default=1, help='Generate this many samples')
 
@@ -222,7 +223,7 @@ def main():
         start_time = time.time()
 
         try:
-            while counter < 100:
+            while counter < args.max_iterations:
                 if args.val_every > 0 and (counter % args.val_every == 0 or counter == 1):
                     validation()
 
