@@ -36,10 +36,8 @@ parser.add_argument('--only_train_transformer_layers', default=False, action='st
 
 parser.add_argument('--restore_from', type=str, default='latest', help='Either "latest", "fresh", or a path to a checkpoint file')
 parser.add_argument('--run_name', type=str, default='run1', help='Run id. Name of subdirectory in checkpoint/ and samples/')
-parser.add_argument('--sample_every', metavar='N', type=int, default=100, help='Generate samples every N steps')
 parser.add_argument('--sample_length', metavar='TOKENS', type=int, default=1023, help='Sample this many tokens')
 parser.add_argument('--sample_num', metavar='N', type=int, default=1, help='Generate this many samples')
-parser.add_argument('--save_every', metavar='N', type=int, default=1000, help='Write a checkpoint every N steps')
 
 parser.add_argument('--val_dataset', metavar='PATH', type=str, default=None, help='Dataset for validation loss, defaults to --dataset.')
 parser.add_argument('--val_batch_size', metavar='SIZE', type=int, default=2, help='Batch size for validation.')
@@ -224,11 +222,7 @@ def main():
         start_time = time.time()
 
         try:
-            while True:
-                if counter % args.save_every == 0:
-                    save()
-                if counter % args.sample_every == 0:
-                    generate_samples()
+            while counter < 100:
                 if args.val_every > 0 and (counter % args.val_every == 0 or counter == 1):
                     validation()
 
@@ -255,6 +249,7 @@ def main():
                         time=time.time() - start_time,
                         loss=v_loss,
                         avg=avg_loss[0] / avg_loss[1]))
+            generate_samples()
 
                 counter += 1
         except KeyboardInterrupt:
