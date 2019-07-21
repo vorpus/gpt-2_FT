@@ -251,6 +251,7 @@ def main():
                         loss=v_loss,
                         avg=avg_loss[0] / avg_loss[1]))
                 counter += 1
+            save()
             generate_samples()
 
         except KeyboardInterrupt:
